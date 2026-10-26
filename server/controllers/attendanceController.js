@@ -1,7 +1,7 @@
 const Attendance = require("../models/Attendance");
 const Student = require("../models/Student");
 const QRSession = require("../models/QRSession");
-
+const mongoose = require("mongoose");
 // ==================================================
 // Manual Attendance
 // ==================================================
@@ -553,8 +553,39 @@ const getStudentAttendance = async (
   }
 };
 
+const saveGroupPhotoAttedance = async(req, res) =>{
+  try{
+    const {sessionId , studentIds} = req.body;
+    
+    if(!sessionId || !Array.isArray(studentIds)|| !studentIds.length){
+      return res.status(400).json({success:false,
+        message:"Session ID and students IDs are required",
+      });
+    }
+    const createdBy= req.user.id;
+    const uniqueIds=[...new Set(studentIds.map(String))];
+    
+    if(uniqueIds.some((id)=> !mongoose.isValidObjectId(id))){
+      return res.status(400).json({
+        success:false,
+        message:"Invalid student ID",
+      });
+    }
+  }catch(e){
+    console.error("Group Photo Attendance Error: ",e);
+
+    return res.status(500).json({
+      success:false,
+      message:"Failed to save attendence",
+      error:e.message,
+    })
+  }
+}
+
+
+
 // ==================================================
-// Export
+// Expor
 // ==================================================
 
 module.exports = {
@@ -574,5 +605,6 @@ module.exports = {
   getAttendanceByDate,
 
   getStudentAttendance,
+  saveGroupPhotoAttedance,
 
 };

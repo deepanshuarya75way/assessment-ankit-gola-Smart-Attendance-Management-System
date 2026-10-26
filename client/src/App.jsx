@@ -11,6 +11,7 @@ import AttendanceReport from "./pages/AttendanceReport";
 import StudentQRAttendance from "./pages/StudentQRAttendance";
 import FaceAttendance from "./pages/FaceAttendance";
 import WorkingDays from "./pages/WorkingDays";
+// import GroupPhotoAttendance from "./pages/GroupPhotoAttendance";
 
 
 

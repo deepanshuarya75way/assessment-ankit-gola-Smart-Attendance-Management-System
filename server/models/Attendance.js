@@ -13,7 +13,7 @@ const attendanceSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-
+    
     date: {
       type: Date,
       default: Date.now,
@@ -24,7 +24,7 @@ const attendanceSchema = new mongoose.Schema(
       enum: ["Present", "Absent"],
       default: "Present",
     },
-
+  
     method: {
       type: String,
       enum: [
@@ -37,6 +37,19 @@ const attendanceSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+  }
+);
+
+attendanceSchema.index(
+  {
+    student:1,
+    createBy:1,
+    date:1,
+    type:String,
+    default:null
+  },
+  {
+    unique:true,
   }
 );
 
